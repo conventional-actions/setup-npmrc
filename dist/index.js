@@ -54,6 +54,8 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
     if (scope) {
         scope = scope.toLowerCase();
     }
+    // Remove http: or https: from front of registry.
+    registryUrl = registryUrl.replace(/(^\w+:|^)/, '');
     const settings = new Map();
     core.debug(`Setting auth in ${fileLocation}`);
     if (fs.existsSync(fileLocation)) {
@@ -62,9 +64,7 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
             settings.set(key, value);
         }
     }
-    // Remove http: or https: from front of registry.
-    const authString = `${registryUrl.replace(/(^\w+:|^)/, '')}:_authToken`;
-    settings.set(authString, token);
+    settings.set(`${registryUrl}:_authToken`, token);
     settings.set(scope ? `${scope}:registry` : 'registry', registryUrl);
     settings.set('always-auth', alwaysAuth);
     let newContents = '';
@@ -112,12 +112,9 @@ const auth = __importStar(__nccwpck_require__(8527));
 async function run() {
     try {
         const alwaysAuth = core.getInput('always-auth');
-        const registryUrl = core.getInput('registry-url');
+        const registryUrl = core.getInput('registry-url', { required: true });
         const scope = core.getInput('scope');
         const token = core.getInput('token');
-        if (registryUrl) {
-            auth.configAuthentication(registryUrl, scope, token, alwaysAuth);
-        }
         auth.configAuthentication(registryUrl, scope, token, alwaysAuth);
         return;
     }

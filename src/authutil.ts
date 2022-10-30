@@ -38,6 +38,9 @@ function writeRegistryToFile(
     scope = scope.toLowerCase()
   }
 
+  // Remove http: or https: from front of registry.
+  registryUrl = registryUrl.replace(/(^\w+:|^)/, '')
+
   const settings = new Map<string, string>()
 
   core.debug(`Setting auth in ${fileLocation}`)
@@ -48,9 +51,7 @@ function writeRegistryToFile(
     }
   }
 
-  // Remove http: or https: from front of registry.
-  const authString = `${registryUrl.replace(/(^\w+:|^)/, '')}:_authToken`
-  settings.set(authString, token)
+  settings.set(`${registryUrl}:_authToken`, token)
   settings.set(scope ? `${scope}:registry` : 'registry', registryUrl)
   settings.set('always-auth', alwaysAuth)
 
