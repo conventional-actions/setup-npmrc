@@ -66,7 +66,7 @@ function writeRegistryToFile(
   settings.set('always-auth', alwaysAuth)
 
   let newContents = ''
-  for (const [value, key] of settings) {
+  for (const [key, value] of settings) {
     newContents += `${key}=${value}${os.EOL}`
   }
 

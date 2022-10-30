@@ -77,7 +77,7 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
     settings.set(scope ? `${scope}:registry` : 'registry', registryUrl);
     settings.set('always-auth', alwaysAuth);
     let newContents = '';
-    for (const [value, key] of settings) {
+    for (const [key, value] of settings) {
         newContents += `${key}=${value}${os.EOL}`;
     }
     fs.writeFileSync(fileLocation, newContents);
