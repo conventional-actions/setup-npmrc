@@ -50,12 +50,16 @@ function writeRegistryToFile(
   if (fs.existsSync(fileLocation)) {
     for (const line of fs.readFileSync(fileLocation, 'utf8').split(os.EOL)) {
       const [key, value] = line.split('=')
+      if (key.includes('authToken')) {
+        core.setSecret(value)
+      }
       settings.set(key, value)
     }
   }
 
   if (token) {
     settings.set(`${registryUrl}:_authToken`, token)
+    core.setSecret(token)
   }
 
   settings.set(scope ? `${scope}:registry` : 'registry', registryUrl)
@@ -67,5 +71,6 @@ function writeRegistryToFile(
   }
 
   fs.writeFileSync(fileLocation, newContents)
+  core.debug(newContents)
   core.exportVariable('NPM_CONFIG_USERCONFIG', fileLocation)
 }
