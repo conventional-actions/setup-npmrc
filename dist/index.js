@@ -57,8 +57,6 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
     if (scope) {
         scope = scope.toLowerCase();
     }
-    // Remove http: or https: from front of registry.
-    registryUrl = registryUrl.replace(/(^\w+:|^)/, '');
     const settings = new Map();
     core.debug(`Setting auth in ${fileLocation}`);
     if (fs.existsSync(fileLocation)) {
@@ -71,7 +69,8 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
         }
     }
     if (token) {
-        settings.set(`${registryUrl}:_authToken`, token);
+        // Remove http: or https: from front of registry.
+        settings.set(`${registryUrl.replace(/(^\w+:|^)/, '')}:_authToken`, token);
         core.setSecret(token);
     }
     settings.set(scope ? `${scope}:registry` : 'registry', registryUrl);
