@@ -14,7 +14,7 @@ export function configAuthentication(
     process.env['RUNNER_TEMP'] || process.cwd(),
     '.npmrc'
   )
-  if (!registryUrl.endsWith('/')) {
+  if (registryUrl && !registryUrl.endsWith('/')) {
     registryUrl += '/'
   }
 
