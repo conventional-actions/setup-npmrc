@@ -4,7 +4,7 @@ import * as auth from './authutil'
 async function run(): Promise<void> {
   try {
     const alwaysAuth: string = core.getInput('always-auth')
-    const registryUrl: string = core.getInput('registry-url', {required: true})
+    const registryUrl: string = core.getInput('registry-url')
     const scope: string = core.getInput('scope')
     const token: string = core.getInput('token')
     auth.configAuthentication(registryUrl, scope, token, alwaysAuth)

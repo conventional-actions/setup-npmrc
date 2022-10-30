@@ -28,6 +28,9 @@ function writeRegistryToFile(
   fileLocation: string,
   alwaysAuth: string
 ): void {
+  if (!registryUrl) {
+    registryUrl = 'https://npm.pkg.github.com/'
+  }
   if (!scope && registryUrl.includes('npm.pkg.github.com')) {
     scope = github.context.repo.owner
   }
@@ -51,7 +54,10 @@ function writeRegistryToFile(
     }
   }
 
-  settings.set(`${registryUrl}:_authToken`, token)
+  if (token) {
+    settings.set(`${registryUrl}:_authToken`, token)
+  }
+
   settings.set(scope ? `${scope}:registry` : 'registry', registryUrl)
   settings.set('always-auth', alwaysAuth)
 

@@ -7,7 +7,6 @@ inputs:
     default: 'false'
   registry-url:
     description: 'Registry to set up for auth. Will set the registry in a project level .npmrc file.'
-    required: true
   scope:
     description: 'Optional scope for authenticating against scoped registries. Will fall back to the repository owner when using the GitHub Packages registry (https://npm.pkg.github.com/).'
   token:
