@@ -45,7 +45,7 @@ function configAuthentication(registryUrl, scope, token, alwaysAuth) {
 }
 exports.configAuthentication = configAuthentication;
 function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth) {
-    if (!registryUrl) {
+    if (!registryUrl || registryUrl.length === 0) {
         registryUrl = 'https://npm.pkg.github.com/';
     }
     if (!scope && registryUrl.includes('npm.pkg.github.com')) {

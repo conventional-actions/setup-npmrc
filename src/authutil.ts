@@ -28,7 +28,7 @@ function writeRegistryToFile(
   fileLocation: string,
   alwaysAuth: string
 ): void {
-  if (!registryUrl) {
+  if (!registryUrl || registryUrl.length === 0) {
     registryUrl = 'https://npm.pkg.github.com/'
   }
   if (!scope && registryUrl.includes('npm.pkg.github.com')) {
