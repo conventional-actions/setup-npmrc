@@ -45,6 +45,9 @@ function configAuthentication(registryUrl, scope, token, alwaysAuth) {
 }
 exports.configAuthentication = configAuthentication;
 function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth) {
+    if (!registryUrl) {
+        registryUrl = 'https://npm.pkg.github.com/';
+    }
     if (!scope && registryUrl.includes('npm.pkg.github.com')) {
         scope = github.context.repo.owner;
     }
@@ -64,7 +67,9 @@ function writeRegistryToFile(registryUrl, scope, token, fileLocation, alwaysAuth
             settings.set(key, value);
         }
     }
-    settings.set(`${registryUrl}:_authToken`, token);
+    if (token) {
+        settings.set(`${registryUrl}:_authToken`, token);
+    }
     settings.set(scope ? `${scope}:registry` : 'registry', registryUrl);
     settings.set('always-auth', alwaysAuth);
     let newContents = '';
@@ -112,7 +117,7 @@ const auth = __importStar(__nccwpck_require__(8527));
 async function run() {
     try {
         const alwaysAuth = core.getInput('always-auth');
-        const registryUrl = core.getInput('registry-url', { required: true });
+        const registryUrl = core.getInput('registry-url');
         const scope = core.getInput('scope');
         const token = core.getInput('token');
         auth.configAuthentication(registryUrl, scope, token, alwaysAuth);
