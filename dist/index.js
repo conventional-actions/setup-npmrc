@@ -38,7 +38,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 function configAuthentication(registryUrl, scope, token, alwaysAuth) {
     const npmrc = path.resolve(process.env['RUNNER_TEMP'] || process.cwd(), '.npmrc');
-    if (!registryUrl.endsWith('/')) {
+    if (registryUrl && !registryUrl.endsWith('/')) {
         registryUrl += '/';
     }
     writeRegistryToFile(registryUrl, scope, token, npmrc, alwaysAuth);
