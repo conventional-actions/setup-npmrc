@@ -47,10 +47,12 @@ function writeRegistryToFile(
   if (fs.existsSync(fileLocation)) {
     for (const line of fs.readFileSync(fileLocation, 'utf8').split(os.EOL)) {
       const [key, value] = line.split('=')
-      if (key.includes('authToken')) {
-        core.setSecret(value)
+      if (key) {
+        settings.set(key, value)
+        if (key.includes('authToken')) {
+          core.setSecret(value)
+        }
       }
-      settings.set(key, value)
     }
   }
 
