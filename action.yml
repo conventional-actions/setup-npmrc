@@ -14,7 +14,7 @@ inputs:
     description: 'Token to use for authenticating to the registry'
     default: ${{ github.token }}
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 branding:
   color: "purple"
