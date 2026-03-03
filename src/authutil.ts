@@ -31,7 +31,7 @@ function writeRegistryToFile(
   if (!registryUrl || registryUrl.length === 0) {
     registryUrl = 'https://npm.pkg.github.com/'
   }
-  if (!scope && registryUrl.includes('npm.pkg.github.com')) {
+  if (!scope && new URL(registryUrl).hostname === 'npm.pkg.github.com') {
     scope = github.context.repo.owner
   }
   if (scope && !scope.startsWith('@')) {
